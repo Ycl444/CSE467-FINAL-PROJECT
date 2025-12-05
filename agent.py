@@ -2,7 +2,7 @@ from setup import call_model_chat_completions, MODEL
 #function 1: ask mutiple times for each question and take the most common answer
 def ask_multiple_times(prompt: str) -> str:
     choices = []
-    for _ in range(4):
+    for _ in range(3):
          response = call_model_chat_completions(prompt, temperature = 0.8)
          if response["ok"]:
             choices.append(response["text"].strip())
@@ -33,3 +33,17 @@ def translate_to_english(prompt: str) -> str:
         return response["text"].strip()
     else:
         return prompt 
+
+#function 3: follow the dev domain, classify the question type
+# math , coding, furture_prediction, planning, common_sense
+def type_check(prompt: str) -> str:
+    system_prompt = "You are a great classifier. To better answer the user's question, you must classify the question into one of the following five categories:'math','coding','future_prediction','planning',or 'common_sense'. Reply with the category name only, does not need to explain, keep simple and accurate."
+    response = call_model_chat_completions(prompt,system = system_prompt)
+    if response["ok"]:
+        type = response["text"].strip()
+        if type in ["math", "coding", "furture_prediction", "planning", "common_sense"]:
+            return type
+        else:
+            return "others"
+    else:
+        return "others"
