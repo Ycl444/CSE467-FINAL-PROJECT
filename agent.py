@@ -24,3 +24,12 @@ def ask_multiple_times(prompt: str) -> str:
             most_com_ans = a
          
     return most_com_ans
+
+#function 2: if the question is not in English , translate it to English first
+def translate_to_english(prompt: str) -> str:
+    system_prompt = " You are one of the best translator in the world. Translate the quetions into English accurately but keep the original meaning if the question is not written in English."
+    response = call_model_chat_completions(prompt,temperature = 0.3,system = system_prompt)
+    if response["ok"]:
+        return response["text"].strip()
+    else:
+        return prompt 
