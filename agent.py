@@ -1,4 +1,5 @@
 from setup import call_model_chat_completions, MODEL
+from langdetect import detect
 #function 1: ask mutiple times for each question and take the most common answer
 def ask_multiple_times(prompt: str) -> str:
     choices = []
@@ -26,7 +27,18 @@ def ask_multiple_times(prompt: str) -> str:
     return most_com_ans
 
 #function 2: if the question is not in English , translate it to English first
+def is_english(prompt: str) -> bool:
+    try:
+        if detect(prompt) =="en":
+            return True
+        else:
+            return False
+    except:
+        return False
+    
 def translate_to_english(prompt: str) -> str:
+    if is_english(prompt):
+        return prompt
     system_prompt = " You are one of the best translator in the world. Translate the quetions into English accurately but keep the original meaning if the question is not written in English."
     response = call_model_chat_completions(prompt,temperature = 0.3,system = system_prompt)
     if response["ok"]:
@@ -47,3 +59,4 @@ def type_check(prompt: str) -> str:
             return "others"
     else:
         return "others"
+    
