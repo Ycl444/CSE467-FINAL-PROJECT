@@ -1,6 +1,6 @@
 from setup import call_model_chat_completions, MODEL
 from langdetect import detect
-#function 1: ask mutiple times for each question and take the most common answer
+#function 1: ask multiple times for each essential question and take the most common answer
 def ask_multiple_times(prompt: str) -> str:
     choices = []
     for _ in range(4):
@@ -26,7 +26,7 @@ def ask_multiple_times(prompt: str) -> str:
          
     return most_com_ans
 
-#function 2: if the question is not in English , translate it to English first
+#function 2: if the question is not in english , translate it to english
 def is_english(prompt: str) -> bool:
     try:
         if detect(prompt) =="en":
@@ -61,7 +61,7 @@ def type_check(prompt: str) -> str:
         return "common_sense"
 
 #function 4: based on the question type, create an agent_loop to answer the question
-# math and coding need translate to English first
+# math and coding need translate to english first
 # math, future_prediction, planning need to ask multiple times
 def agent_loop(prompt: str) -> str:
     type = type_check(prompt)
