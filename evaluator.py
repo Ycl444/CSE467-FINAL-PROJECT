@@ -1,6 +1,6 @@
 import re, time
 from setup import call_model_chat_completions, MODEL
-from agent import ask_multiple_times
+
 # Define three tests: input + expected copy from final_project_tutorial.ipynb
 tests = [
     {
@@ -67,17 +67,11 @@ def grade(expected: str, got: str, kind: str) -> bool:
 def evaluate_tests(tests, model=MODEL):
     rows = []
     for t in tests:
-        # r = call_model_chat_completions(
-        #     t["prompt"],
-        #     system="You are a careful solver. Reply ONLY with the final answer, nothing else.",
-        #     model=model,
-        #     temperature=0.0,
-        # )
         r = call_model_chat_completions(
             t["prompt"],
-            system="You are a helpful assistant. Reply with only the final answer—no explanation.",
+            system="You are a careful solver. Reply ONLY with the final answer, nothing else.",
             model=model,
-            temperature=0.8,
+            temperature=0.0,
         )
         got = (r["text"] or "").strip()
         is_correct = grade(t["expected"], got, t["type"])
